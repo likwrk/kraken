@@ -21,14 +21,11 @@ const App = {
 
   async init() {
     try {
-      // 1. Ensure API configuration
       const baseUrl = await Config.ensureUrl();
       UI.setStatus(`Connected to ${baseUrl}`);
 
-      // 2. Fetch initial data
       this.rawData = await API.fetchSensors(baseUrl);
 
-      // 3. Create default chart if none exist
       if (ChartManager.charts.size === 0) {
         this.addChart({
           ...DEFAULT_CHART_CONFIG,
@@ -38,7 +35,6 @@ const App = {
         });
       }
 
-      // 4. Bind UI events
       UI.bindEvents({
         onAddChart: (config) =>
           this.addChart({
@@ -62,12 +58,32 @@ const App = {
         },
       });
 
-      UI.setStatus(
-        `Loaded ${this.rawData.length} readings. Add charts to visualize.`,
-      );
+      UI.setStatus(`Loaded ${this.rawData.length} readings.`, "success");
     } catch (error) {
       console.error("App initialization error:", error);
-      UI.setStatus(`Error: ${error.message}`, "error");
+
+      // ✅ Critical: Show clear error with recovery option
+      UI.setStatus(`Error: ${error.message}. Try resetting API URL.`, "error");
+
+      // ✅ Ensure reset button is still visible and active
+      const resetBtn = document.getElementById("btn-reset-config");
+      if (resetBtn) {
+        resetBtn.style.display = "inline-block";
+        resetBtn.disabled = false;
+        resetBtn.style.opacity = "1";
+      }
+
+      // ✅ Re-bind reset listener as fallback (in case previous was lost)
+      resetBtn?.addEventListener(
+        "click",
+        () => {
+          if (confirm("Clear stored API URL and reload?")) {
+            sessionStorage.removeItem("APP_API_BASE_URL");
+            window.location.reload();
+          }
+        },
+        { once: true },
+      );
     }
   },
 

@@ -106,18 +106,29 @@ export const UI = {
   /**
    * Bind global event listeners
    */
+  // In js/ui.js - bindEvents method
+
   bindEvents({ onAddChart, onResetConfig, onChartAction }) {
+    // Add Chart Button
     this.addChartBtn.addEventListener("click", () => {
       this.showAddChartModal(onAddChart);
     });
 
-    this.resetConfigBtn.addEventListener("click", () => {
+    // ✅ Reset Button - Direct listener, always active
+    this.resetConfigBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // Prevent any parent handlers from blocking
+
+      // Confirm immediately
       if (confirm("Clear stored API URL and reload?")) {
-        onResetConfig();
+        // Clear storage directly here as backup
+        sessionStorage.removeItem("APP_API_BASE_URL");
+        // Force reload
+        window.location.href = window.location.href;
       }
     });
 
-    // Delegate chart card actions (remove/refresh)
+    // Chart Card Actions (Remove/Refresh) - Delegated
     this.chartsContainer.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-action]");
       if (!btn) return;
