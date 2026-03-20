@@ -3,7 +3,7 @@
  */
 export const Config = {
   STORAGE_KEY: "APP_API_BASE_URL",
-  DEFAULT_BASE_URL: "http://localhost:12345",
+  DEFAULT_BASE_URL: "/api",
 
   getUrl() {
     return sessionStorage.getItem(this.STORAGE_KEY);
