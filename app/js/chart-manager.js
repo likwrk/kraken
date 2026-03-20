@@ -69,6 +69,7 @@ export const ChartManager = {
             grid: { color: "rgba(0,0,0,0.05)" },
           },
           x: {
+            type: "time",
             time: {
               tooltipFormat: "MMM d, yyyy HH:mm:ss",
               displayFormats: {

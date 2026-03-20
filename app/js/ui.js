@@ -45,6 +45,11 @@ export const UI = {
    * Show modal for adding a new chart
    */
   showAddChartModal(onSubmit) {
+    // ✅ Close any existing modal first
+    const existingModal = document.querySelector(".modal-overlay");
+    if (existingModal) {
+      existingModal.remove();
+    }
     const modal = document.createElement("div");
     modal.className = "modal-overlay";
     modal.innerHTML = `
