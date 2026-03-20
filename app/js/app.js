@@ -48,12 +48,29 @@ const App = {
           window.location.reload();
         },
         onChartAction: ({ chartId, action }) => {
-          if (action === "remove") {
-            ChartManager.remove(chartId);
-            const card = document.querySelector(`[data-chart-id="${chartId}"]`);
-            if (card) card.remove();
-          } else if (action === "refresh") {
-            this.refreshChart(chartId);
+          switch (action) {
+            case "remove":
+              ChartManager.remove(chartId);
+              const card = document.querySelector(
+                `[data-chart-id="${chartId}"]`,
+              );
+              if (card) card.remove();
+              break;
+
+            case "refresh":
+              this.refreshChart(chartId);
+              break;
+
+            case "resetZoom":
+              const chart = ChartManager.get(chartId);
+              if (chart) {
+                chart.resetZoom();
+                UI.setStatus("Zoom reset.", "success");
+              }
+              break;
+
+            default:
+              console.warn(`Unknown chart action: ${action}`);
           }
         },
       });

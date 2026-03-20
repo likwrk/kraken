@@ -26,6 +26,7 @@ export const UI = {
             <header class="chart-card-header">
                 <h3>${config.title}</h3>
                 <div class="chart-actions">
+                    <button class="btn-text btn-small btn-reset-zoom" data-action="resetZoom">Reset Zoom</button>
                     <button class="btn-text btn-small btn-remove" data-action="remove">Remove</button>
                     <button class="btn-text btn-small btn-refresh" data-action="refresh">Refresh</button>
                 </div>

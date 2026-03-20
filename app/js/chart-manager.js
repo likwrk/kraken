@@ -40,6 +40,34 @@ export const ChartManager = {
           intersect: false,
         },
         plugins: {
+          zoom: {
+            drag: {
+              enabled: true, // ✅ Enable drag selection
+              backgroundColor: "rgba(59, 130, 246, 0.3)",
+              modifierKey: null, // No key required
+            },
+            pan: {
+              enabled: true,
+              mode: "x", // Pan horizontally only
+              modifierKey: null, // No key required
+            },
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              pinch: {
+                enabled: true,
+              },
+              mode: "x", // Zoom horizontally only
+              limitZoom: {
+                min: 1000 * 60 * 5, // Min zoom: 5 minutes (ms)
+                max: 1000 * 60 * 60 * 24 * 7, // Max zoom: 7 days (ms)
+              },
+            },
+            limits: {
+              x: { min: "original", max: "original" }, // Prevent panning beyond data
+            },
+          },
           legend: {
             position: "top",
             labels: { usePointStyle: true, pointStyle: "line" },
@@ -76,6 +104,7 @@ export const ChartManager = {
                 second: "HH:mm:ss",
                 minute: "HH:mm",
                 hour: "HH:mm",
+                day: "MMM d",
               },
             },
             title: { display: true, text: "Time" },
